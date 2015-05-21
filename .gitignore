@@ -1,0 +1,15 @@
+# gitignore for coursera scala/sbt projects
+
+# Compiled resources
+target
+*.class
+
+# IntelliJ Idea files
+*.iml
+*.ipr
+*.iws
+.idea
+out
+
+# Mac
+.DS_Store
