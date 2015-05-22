@@ -19,52 +19,65 @@ class MyTreeSuite(_system: ActorSystem) extends TestKit(_system) with FunSuiteLi
 
   override def afterAll: Unit = system.shutdown()
 
-  test("proper inserts and lookups")
+//  test("proper inserts and lookups")
+//  {
+//    val topNode = system.actorOf(Props[BinaryTreeSet])
+//
+//    topNode ! Contains(testActor, id = 1, 1)
+//    expectMsg(ContainsResult(1, false))
+//
+//    topNode ! Insert(testActor, id = 2, 1)
+//    topNode ! Contains(testActor, id = 3, 1)
+//
+//    expectMsg(OperationFinished(2))
+//    expectMsg(ContainsResult(3, true))
+//
+//    topNode ! Insert(testActor, id = 4, -1)
+//    topNode ! Contains(testActor, id = 5, -1)
+//
+//    expectMsg(OperationFinished(4))
+//    expectMsg(ContainsResult(5, true))
+//
+//    topNode ! Contains(testActor, id = 6, 0)
+//    expectMsg(ContainsResult(6, false))
+//
+//    topNode ! Insert(testActor, id = 7, 0)
+//    topNode ! Contains(testActor, id = 8, 0)
+//
+//    expectMsg(OperationFinished(7))
+//    expectMsg(ContainsResult(8, true))
+//  }
+//
+//  test("insert, remove and lookups")
+//  {
+//    val topNode = system.actorOf(Props[BinaryTreeSet])
+//
+//    topNode ! Contains(testActor, id = 1, 1)
+//    expectMsg(ContainsResult(1, false))
+//
+//    topNode ! Insert(testActor, id = 2, 1)
+//    topNode ! Contains(testActor, id = 3, 1)
+//
+//    expectMsg(OperationFinished(2))
+//    expectMsg(ContainsResult(3, true))
+//
+//    topNode ! Remove(testActor, id = 4, 1)
+//    topNode ! Contains(testActor, id = 5, 1)
+//
+//    expectMsg(OperationFinished(4))
+//    expectMsg(ContainsResult(5, false))
+//  }
+
+  test("insert, remove and GC")
   {
     val topNode = system.actorOf(Props[BinaryTreeSet])
 
-    topNode ! Contains(testActor, id = 1, 1)
-    expectMsg(ContainsResult(1, false))
-
-    topNode ! Insert(testActor, id = 2, 1)
-    topNode ! Contains(testActor, id = 3, 1)
-
-    expectMsg(OperationFinished(2))
-    expectMsg(ContainsResult(3, true))
-
-    topNode ! Insert(testActor, id = 4, -1)
-    topNode ! Contains(testActor, id = 5, -1)
-
-    expectMsg(OperationFinished(4))
-    expectMsg(ContainsResult(5, true))
-
-    topNode ! Contains(testActor, id = 6, 0)
-    expectMsg(ContainsResult(6, false))
-
-    topNode ! Insert(testActor, id = 7, 0)
-    topNode ! Contains(testActor, id = 8, 0)
-
-    expectMsg(OperationFinished(7))
-    expectMsg(ContainsResult(8, true))
+    topNode ! Insert(testActor, id = 1, 1)
+    topNode ! Insert(testActor, id = 2, -1)
+    topNode ! GC
+    topNode ! Insert(testActor, id = 3, 5)
+    topNode ! Insert(testActor, id = 4, 6)
+    Thread.sleep(1000)
   }
 
-  test("insert, remove and lookups")
-  {
-    val topNode = system.actorOf(Props[BinaryTreeSet])
-
-    topNode ! Contains(testActor, id = 1, 1)
-    expectMsg(ContainsResult(1, false))
-
-    topNode ! Insert(testActor, id = 2, 1)
-    topNode ! Contains(testActor, id = 3, 1)
-
-    expectMsg(OperationFinished(2))
-    expectMsg(ContainsResult(3, true))
-
-    topNode ! Remove(testActor, id = 4, 1)
-    topNode ! Contains(testActor, id = 5, 1)
-
-    expectMsg(OperationFinished(4))
-    expectMsg(ContainsResult(5, false))
-  }
 }
